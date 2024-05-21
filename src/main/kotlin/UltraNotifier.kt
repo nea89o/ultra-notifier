@@ -5,7 +5,7 @@ import java.io.File
 
 object UltraNotifier {
 	val logger =
-//#if MC == 10809
+//#if MC <= 11404
 //$$		org.apache.logging.log4j.LogManager.getLogger("UltraNotifier")!!
 //#else
 		org.slf4j.LoggerFactory.getLogger("UltraNotifier")!!

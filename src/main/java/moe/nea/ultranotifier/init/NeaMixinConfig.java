@@ -1,6 +1,6 @@
 package moe.nea.ultranotifier.init;
 
-//#if MC < 11404
+//#if FORGE
 //$$import org.spongepowered.asm.lib.tree.ClassNode;
 //#else
 import org.objectweb.asm.tree.ClassNode;

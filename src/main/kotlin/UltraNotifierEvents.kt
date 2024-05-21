@@ -17,7 +17,7 @@ object UltraNotifierEvents {
 
 abstract class UltraEvent :
 //#if FORGE
-//$$	net.minecraftforge.fml.common.eventhandler.Event()
+//$$	net.minecraftforge.eventbus.api.Event()
 //#else
 	me.bush.eventbus.event.Event()
 //#endif

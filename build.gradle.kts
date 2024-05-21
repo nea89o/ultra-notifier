@@ -137,7 +137,7 @@ tasks.named("runClient", RunGameTask::class) {
 		this.languageVersion.set(mcJavaVersion)
 	})
 }
-if (version.isBridge) {
+if (version.isBridge && false) {
 	tasks.withType<JavaCompile> {
 		onlyIf { false }
 	}

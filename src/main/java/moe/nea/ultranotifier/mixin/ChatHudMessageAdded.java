@@ -19,7 +19,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ChatHudMessageAdded {
 	@Inject(
 //#if MC <= 11404
+//#if FORGE
 //$$			method = "printChatMessageWithOptionalDeletion",
+//#else
+//$$			method = "addMessage(Lnet/minecraft/text/Text;I)V",
+//#endif
 //#else
 			method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V",
 //#endif
