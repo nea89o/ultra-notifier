@@ -1,0 +1,8 @@
+.idea
+.gradle
+build/
+*/build/
+versions/*/build/
+versions/*/run/
+.env
+.properties

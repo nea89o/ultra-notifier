@@ -1,0 +1,2 @@
+net.minecraft.client.gui.NewChatGui net.minecraft.client.gui.GuiNewChat
+net.minecraft.util.text.ITextComponent net.minecraft.util.IChatComponent

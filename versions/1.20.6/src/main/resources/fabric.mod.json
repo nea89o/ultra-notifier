@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "ultranotifier",
+  "name": "Ultra Notifier",
+  "version": "${version}",
+  "entrypoints": {
+    "main": ["moe.nea.ultranotifier.UltraNotifierEntryPoint"]
+  }
+}

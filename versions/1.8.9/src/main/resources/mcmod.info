@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "ultranotifier",
+    "name": "nea89s Ultra Notifier",
+    "description": "Ultratastic chat notifications and similar",
+    "version": "${version}",
+    "mcversion": "1.8.9",
+    "url": "https://github.com/nea89/ultra-notifier/",
+    "updateUrl": "",
+    "authorList": [
+      "nea89"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
