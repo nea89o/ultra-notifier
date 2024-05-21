@@ -1,3 +1,5 @@
 net.minecraft.client.gui.NewChatGui net.minecraft.client.gui.GuiNewChat
 net.minecraft.util.text.ITextComponent net.minecraft.util.IChatComponent
+net.minecraft.util.text.ITextComponent getString() getUnformattedText()
 net.minecraftforge.eventbus.api.Event net.minecraftforge.fml.common.eventhandler.Event
+net.minecraftforge.eventbus.api.SubscribeEvent net.minecraftforge.fml.common.eventhandler.SubscribeEvent

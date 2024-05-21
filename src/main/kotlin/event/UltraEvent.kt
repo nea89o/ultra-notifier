@@ -1,19 +1,4 @@
-package moe.nea.ultranotifier
-
-object UltraNotifierEvents {
-	val eventBus =
-//#if FORGE
-//$$		net.minecraftforge.common.MinecraftForge.EVENT_BUS
-//#else
-		me.bush.eventbus.bus.EventBus { UltraNotifier.logger.warn("EventBus: $it") }
-//#endif
-	@JvmStatic
-	fun <T : UltraEvent> post(event: T): T {
-		UltraNotifier.logger.info("Posting $event")
-		eventBus.post(event)
-		return event
-	}
-}
+package moe.nea.ultranotifier.event
 
 abstract class UltraEvent :
 //#if FORGE
@@ -50,4 +35,3 @@ abstract class UltraEvent :
 }
 
 
-class ChatLineAddedEvent() : UltraEvent()
