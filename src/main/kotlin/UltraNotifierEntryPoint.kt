@@ -21,7 +21,7 @@ package moe.nea.ultranotifier
 //$$}
 //#else
 import net.fabricmc.api.ModInitializer
-object UltraNotifierEntryPoint : ModInitializer {
+class UltraNotifierEntryPoint : ModInitializer {
 	override fun onInitialize() {
 		UltraNotifier.onStartup()
 	}

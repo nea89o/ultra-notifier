@@ -12,11 +12,13 @@ enum class Versions(
 	val forgeDep: String?,
 	val needsPack200: Boolean,
 	val isBridge: Boolean,
+
+	val fabricVersion: String? = null,
 ) {
 	MC189("1.8.9", "srg", "1.8.9", "de.oceanlabs.mcp:mcp_stable:22-1.8.9@zip", "MC11404F", "net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9", true, false),
 	MC11404F("1.14.4-forge", "srg", "1.14.4", "de.oceanlabs.mcp:mcp_stable:58-1.14.4@zip", "MC11404", "net.minecraftforge:forge:1.14.4-28.1.113", false, true),
-	MC11404("1.14.4", "yarn", "1.14.4", yarn("1.14.4+build.1"), "MC12006", null, false, true),
-	MC12006("1.20.6", "yarn", "1.20.6", yarn("1.20.6+build.1"), null, null, false, false),
+	MC11404("1.14.4", "yarn", "1.14.4", yarn("1.14.4+build.1"), "MC12006", null, false, true, fabricVersion = "0.23.2+1.14"),
+	MC12006("1.20.6", "yarn", "1.20.6", yarn("1.20.6+build.1"), null, null, false, false, fabricVersion = "0.99.0+1.20.6"),
 	;
 
 	val parent: Versions? by lazy {

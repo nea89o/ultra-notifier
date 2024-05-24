@@ -1,5 +1,5 @@
 {
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_${java}",
   "package": "moe.nea.ultranotifier.mixin",
   "plugin": "moe.nea.ultranotifier.init.NeaMixinConfig",
   "refmap": "mixins.ultranotifier.refmap.json",

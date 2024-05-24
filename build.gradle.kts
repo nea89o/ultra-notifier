@@ -40,6 +40,7 @@ java.toolchain.languageVersion.set(mcJavaVersion)
 preprocess.run {
 	vars.put("MC", version.numericMinecraftVersion)
 	vars.put("FORGE", if ((version.forgeDep != null)) 1 else 0)
+	vars.put("JAVA", mcJavaVersion.asInt())
 }
 
 repositories {
@@ -92,9 +93,13 @@ dependencies {
 		runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:$devauthVersion")
 	} else {
 		modImplementation("net.fabricmc:fabric-loader:0.15.10")
+		modImplementation("net.fabricmc.fabric-api:fabric-api:${version.fabricVersion!!}")
 		runtimeOnly("me.djtheredstoner:DevAuth-fabric:$devauthVersion")
 	}
 	shadowImpl("com.github.therealbush:eventbus:1.0.2")
+	if (version.numericMinecraftVersion < 11300) {
+		shadowImpl("com.mojang:brigadier:1.0.18")
+	}
 	if (version <= Versions.MC11404F) {
 		shadowImpl("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
 			isTransitive = false
@@ -120,15 +125,44 @@ tasks.withType<Jar> {
 tasks.jar {
 	archiveClassifier.set("without-dep")
 }
-
+sourceSets.main {
+	val resourceFile = project.file("src/main/resources")
+	println("All resources: ${resources.srcDirs}")
+	if (!resources.srcDirs.contains(resourceFile)) {
+		println("Added resource dir")
+		resources.srcDir(resourceFile)
+	}
+}
 tasks.shadowJar {
 	archiveClassifier.set("all-dev")
 	configurations = listOf(shadowImpl, shadowModImpl)
 }
 
+tasks.processResources {
+	inputs.property("java", mcJavaVersion.asInt().toString())
+	inputs.property("mcVersion", version.minecraftVersion)
+	inputs.property("version", project.version.toString())
+	inputs.property("modName", "Ultra Notifier")
+	inputs.property("description", "Ultra Notifications")
+	filesMatching(listOf("fabric.mod.json", "mixins.*.json", "mcmod.info", "META-INF/mods.toml")) {
+		expand(inputs.properties)
+	}
+	if (version.forgeDep != null) {
+		exclude("fabric.mod.json")
+		if (version.numericMinecraftVersion < 11400) {
+			exclude("META-INF/mods.toml")
+		} else {
+			exclude("mcmod.info")
+		}
+	} else {
+		exclude("mcmod.info")
+		exclude("META-INF/mods.toml")
+	}
+}
+
 tasks.named("remapJar", RemapJarTask::class) {
 	this.destinationDirectory.set(layout.buildDirectory.dir("libs"))
-	from(tasks.shadowJar)
+	dependsOn(tasks.shadowJar)
 	archiveClassifier.set("")
 	inputFile.set(tasks.shadowJar.flatMap { it.archiveFile })
 }
@@ -137,7 +171,8 @@ tasks.named("runClient", RunGameTask::class) {
 		this.languageVersion.set(mcJavaVersion)
 	})
 }
-if (version.isBridge && false) {
+
+if (version.isBridge) {
 	tasks.withType<JavaCompile> {
 		onlyIf { false }
 	}

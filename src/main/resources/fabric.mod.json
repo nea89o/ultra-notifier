@@ -1,9 +1,14 @@
 {
   "schemaVersion": 1,
   "id": "ultranotifier",
-  "name": "Ultra Notifier",
+  "name": "${modName}",
+  "description": "${description}",
   "version": "${version}",
   "entrypoints": {
     "main": ["moe.nea.ultranotifier.UltraNotifierEntryPoint"]
+  },
+  "depends": {
+    "minecraft": "~${mcVersion}",
+    "java": ">=${java}"
   }
 }

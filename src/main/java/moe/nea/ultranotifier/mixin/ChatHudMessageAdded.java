@@ -1,6 +1,6 @@
 package moe.nea.ultranotifier.mixin;
 
-import moe.nea.ultranotifier.event.ChatLineAddedEvent;
+import moe.nea.ultranotifier.event.ChatGuiLineEvent;
 import moe.nea.ultranotifier.event.UltraNotifierEvents;
 import net.minecraft.client.gui.hud.ChatHud;
 //#if MC > 11404
@@ -37,7 +37,7 @@ public class ChatHudMessageAdded {
 //#endif
 			CallbackInfo ci
 	) {
-		if (UltraNotifierEvents.post(new ChatLineAddedEvent(message)).isCancelled()) {
+		if (UltraNotifierEvents.post(new ChatGuiLineEvent(message)).isCancelled()) {
 			ci.cancel();
 		}
 	}

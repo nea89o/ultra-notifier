@@ -15,6 +15,14 @@ object UltraNotifierEvents {
 		eventBus.post(event)
 		return event
 	}
+
+	fun register(obj: Any) {
+//#if FORGE
+//$$		eventBus.register(obj)
+//#else
+		eventBus.subscribe(obj)
+//#endif
+	}
 }
 
 
