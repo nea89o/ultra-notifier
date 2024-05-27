@@ -32,6 +32,10 @@ abstract class UltraEvent :
 		setCancelled(true)
 	}
 
+	fun post() {
+		UltraNotifierEvents.post(this)
+	}
+
 }
 
 

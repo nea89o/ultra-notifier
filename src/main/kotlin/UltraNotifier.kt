@@ -1,6 +1,7 @@
 package moe.nea.ultranotifier
 
 import moe.nea.ultranotifier.commands.Commands
+import moe.nea.ultranotifier.event.RegistrationFinishedEvent
 import moe.nea.ultranotifier.init.NeaMixinConfig
 import java.io.File
 
@@ -18,6 +19,9 @@ object UltraNotifier {
 			logger.info("Loaded ${mixinPlugin.mixins.size} mixins for ${mixinPlugin.mixinPackage}.")
 		}
 		Commands.init()
+
+		RegistrationFinishedEvent().post()
+
 	}
 
 	val configFolder = File("config/ultra-notifier").also {
