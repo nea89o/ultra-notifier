@@ -34,6 +34,7 @@ java.toolchain.languageVersion.set(mcJavaVersion)
 preprocess.run {
 	vars.put("MC", version.minecraftVersion.versionNumber)
 	vars.put("FORGE", if ((version.forgeDep != null)) 1 else 0)
+	vars.put("FABRIC", if ((version.forgeDep != null)) 0 else 1)
 	vars.put("JAVA", mcJavaVersion.asInt())
 }
 loom.run {
@@ -60,11 +61,14 @@ val shadowImpl by configurations.creating {
 val shadowModImpl by configurations.creating {
 	modImplementation.extendsFrom(this)
 }
-val include = if (version.forgeDep != null) configurations.getByName("include") else shadowModImpl
+val include = if (version.forgeDep != null) configurations.create("includeModImpl") {
+	configurations.getByName("include").extendsFrom(this)
+	modImplementation.extendsFrom(this)
+} else shadowModImpl
 val devauthVersion = "1.1.2"
 dependencies {
 	"minecraft"("com.mojang:minecraft:" + version.minecraftVersion.versionName)
-	"mappings"(if(version.mappingDependency=="official") loom.officialMojangMappings() else version.mappingDependency)
+	"mappings"(if (version.mappingDependency == "official") loom.officialMojangMappings() else version.mappingDependency)
 	if (version.forgeDep != null) {
 		"forge"(version.forgeDep!!)
 		runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:$devauthVersion")
@@ -118,7 +122,7 @@ tasks.shadowJar {
 
 tasks.processResources {
 	inputs.property("java", mcJavaVersion.asInt().toString())
-	inputs.property("mcVersion", version.minecraftVersion)
+	inputs.property("mcVersion", version.minecraftVersion.versionName)
 	inputs.property("version", project.version.toString())
 	inputs.property("modName", "Ultra Notifier")
 	inputs.property("description", "Ultra Notifications")
@@ -150,9 +154,11 @@ tasks.named("runClient", RunGameTask::class) {
 	})
 }
 
-tasks.withType<JavaCompile> {
-	onlyIf { false }
-}
-tasks.withType<KotlinCompile> {
-	onlyIf { false }
+if (version == Versions.MC116Forge) {
+	tasks.withType<JavaCompile> {
+		onlyIf { false }
+	}
+	tasks.withType<KotlinCompile> {
+		onlyIf { false }
+	}
 }

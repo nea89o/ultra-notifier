@@ -16,24 +16,25 @@ interface CustomSource {
 typealias UltraCommandSource =
 //#if FORGE
 //$$	CustomSource
-//#else
+//#elseif MC > 1.18
 	net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
-
+//#else
+//$$    net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource
 //#endif
 
 
 fun translatableText(key: String, vararg args: String) =
-//#if MC > 11400
+//#if MC > 1.17
 	Text.translatable(key, *args)
 //#else
-//$$	net.minecraft.util.ChatComponentTranslation(key, *args)
+//$$	net.minecraft.text.TranslatableText(key, *args)
 //#endif
 
 fun literalText(string: String): Text =
-//#if MC > 11400
+//#if MC > 1.17
 	Text.literal(string)
 //#else
-//$$	net.minecraft.util.ChatComponentText(string)
+//$$	net.minecraft.text.LiteralText(string)
 //#endif
 
 object Commands : SubscriptionTarget {
@@ -46,10 +47,17 @@ object Commands : SubscriptionTarget {
 			                          })
 	}
 
+//#if MC <= 1.18 && FABRIC
+//$$	@UltraSubscribe
+//$$	fun registerEverythingOnce(event: moe.nea.ultranotifier.event.RegistrationFinishedEvent) {
+//$$		CommandRegistrationEvent(net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.DISPATCHER).post()
+//$$	}
+//#endif
+
 	override fun init() {
 //#if FORGE
 //$$		UltraNotifierEvents.register(BrigadierPatchbay)
-//#else
+//#elseif MC > 1.18
 		net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback.EVENT.register { dispatcher, registryAccess ->
 			UltraNotifierEvents.post(CommandRegistrationEvent(dispatcher))
 		}

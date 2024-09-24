@@ -38,7 +38,7 @@ enum class Versions(
 	            yarn("1.16.2+build.47"),
 	            MappingStyle.YARN,
 	            null,
-	            "0.20.1+build.401-1.16",
+	            "0.42.0+1.16",
 	            "MC12006"
 	),
 	MC12006(

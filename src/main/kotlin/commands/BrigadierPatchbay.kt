@@ -8,6 +8,7 @@ package moe.nea.ultranotifier.commands
 //$$import moe.nea.ultranotifier.event.RegistrationFinishedEvent
 //$$import moe.nea.ultranotifier.event.UltraNotifierEvents
 //$$import moe.nea.ultranotifier.event.UltraSubscribe
+//$$import moe.nea.ultranotifier.event.SubscriptionTarget
 //$$import moe.nea.ultranotifier.mixin.AccessorCommandHandler
 //$$import net.minecraft.command.CommandBase
 //$$import net.minecraft.command.CommandHandler
@@ -30,9 +31,15 @@ package moe.nea.ultranotifier.commands
 //$$	val dispatcher: CommandDispatcher<UltraCommandSource>,
 //$$	val node: CommandNode<UltraCommandSource>
 //$$) : CommandBase() {
-//$$	override fun checkPermission(server: MinecraftServer, sender: ICommandSender): Boolean {
+//#if MC >= 1.12
+//$$    override fun checkPermission(server: MinecraftServer, sender: ICommandSender): Boolean {
 //$$		return true
 //$$	}
+//#else
+//$$ 	override fun canCommandSenderUseCommand(sender: ICommandSender): Boolean {
+//$$		return true
+//$$	}
+//#endif
 //$$
 //$$	override fun getName(): String {
 //$$		return node.name
@@ -43,7 +50,13 @@ package moe.nea.ultranotifier.commands
 //$$	}
 //$$
 //$$	private fun getCommandLineText(args: Array<out String>) = "${node.name} ${args.joinToString(" ")}".trim()
+//$$
+//$$
+//#if MC < 1.12
+//$$    override fun processCommand(sender: ICommandSender, args: Array<out String>) {
+//#else
 //$$	override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<out String>) {
+//#endif
 //$$		val source = BridgedCommandSource(sender)
 //$$		val results = dispatcher.parse(getCommandLineText(args), source)
 //$$		kotlin.runCatching {
@@ -55,7 +68,7 @@ package moe.nea.ultranotifier.commands
 //$$	}
 //$$}
 //$$
-//$$object BrigadierPatchbay {
+//$$object BrigadierPatchbay : SubscriptionTarget {
 //$$
 //$$	@UltraSubscribe
 //$$	fun onAfterRegistration(event: RegistrationFinishedEvent) {
