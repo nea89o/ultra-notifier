@@ -4,3 +4,5 @@ net.minecraftforge.eventbus.api.Event net.minecraftforge.fml.common.eventhandler
 net.minecraftforge.eventbus.api.SubscribeEvent net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 net.minecraft.client.gui.screens.Screen net.minecraft.client.gui.GuiScreen
 
+net.minecraftforge.event.TickEvent net.minecraftforge.fml.common.gameevent.TickEvent
+net.minecraftforge.event.TickEvent$ClientTickEvent net.minecraftforge.fml.common.gameevent.TickEvent$ClientTickEvent

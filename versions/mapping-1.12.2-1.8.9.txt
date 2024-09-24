@@ -1,2 +1,0 @@
-net.minecraftforge.event.TickEvent net.minecraftforge.fml.common.gameevent.TickEvent
-net.minecraftforge.event.TickEvent$ClientTickEvent net.minecraftforge.fml.common.gameevent.TickEvent$ClientTickEvent
