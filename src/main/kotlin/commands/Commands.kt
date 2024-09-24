@@ -3,6 +3,7 @@ package moe.nea.ultranotifier.commands
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import moe.nea.ultranotifier.UltraNotifier
 import moe.nea.ultranotifier.event.CommandRegistrationEvent
+import moe.nea.ultranotifier.event.SubscriptionTarget
 import moe.nea.ultranotifier.event.UltraNotifierEvents
 import moe.nea.ultranotifier.event.UltraSubscribe
 import net.minecraft.text.Text
@@ -35,7 +36,7 @@ fun literalText(string: String): Text =
 //$$	net.minecraft.util.ChatComponentText(string)
 //#endif
 
-object Commands {
+object Commands : SubscriptionTarget {
 	@UltraSubscribe
 	fun registerTestCommand(event: CommandRegistrationEvent) {
 		event.dispatcher.register(LiteralArgumentBuilder.literal<UltraCommandSource>("hello")
@@ -45,8 +46,7 @@ object Commands {
 			                          })
 	}
 
-	fun init() {
-		UltraNotifierEvents.register(this)
+	override fun init() {
 //#if FORGE
 //$$		UltraNotifierEvents.register(BrigadierPatchbay)
 //#else

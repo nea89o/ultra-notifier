@@ -1,6 +1,6 @@
 package moe.nea.ultranotifier.commands
 
-//#if FORGE
+//#if MC < 1.16
 //$$import com.mojang.brigadier.CommandDispatcher
 //$$import com.mojang.brigadier.builder.LiteralArgumentBuilder
 //$$import com.mojang.brigadier.tree.CommandNode
@@ -12,8 +12,7 @@ package moe.nea.ultranotifier.commands
 //$$import net.minecraft.command.CommandBase
 //$$import net.minecraft.command.CommandHandler
 //$$import net.minecraft.command.ICommandSender
-//$$import net.minecraft.util.BlockPos
-//$$import net.minecraft.util.ChatComponentText
+//$$import net.minecraft.server.MinecraftServer
 //$$import net.minecraft.util.text.ITextComponent
 //$$import net.minecraftforge.client.ClientCommandHandler
 //$$
@@ -23,7 +22,7 @@ package moe.nea.ultranotifier.commands
 //$$	val sender: ICommandSender
 //$$) : UltraCommandSource {
 //$$	override fun sendFeedback(text: ITextComponent) {
-//$$		sender.addChatMessage(text)
+//$$		sender.sendMessage(text)
 //$$	}
 //$$}
 //$$
@@ -31,37 +30,27 @@ package moe.nea.ultranotifier.commands
 //$$	val dispatcher: CommandDispatcher<UltraCommandSource>,
 //$$	val node: CommandNode<UltraCommandSource>
 //$$) : CommandBase() {
-//$$	override fun addTabCompletionOptions(
-//$$		sender: ICommandSender?,
-//$$		args: Array<out String>?,
-//$$		pos: BlockPos?
-//$$	): MutableList<String> {
-//$$		return super.addTabCompletionOptions(sender, args, pos)
-//$$	}
-//$$
-//$$	override fun canCommandSenderUseCommand(sender: ICommandSender?): Boolean {
-//$$		// TODO: proper check here maybe?
+//$$	override fun checkPermission(server: MinecraftServer, sender: ICommandSender): Boolean {
 //$$		return true
 //$$	}
 //$$
-//$$	override fun getCommandName(): String {
+//$$	override fun getName(): String {
 //$$		return node.name
 //$$	}
 //$$
-//$$	override fun getCommandUsage(sender: ICommandSender?): String {
+//$$	override fun getUsage(sender: ICommandSender): String {
 //$$		return ""
 //$$	}
 //$$
 //$$	private fun getCommandLineText(args: Array<out String>) = "${node.name} ${args.joinToString(" ")}".trim()
-//$$
-//$$	override fun processCommand(sender: ICommandSender, args: Array<out String>) {
+//$$	override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<out String>) {
 //$$		val source = BridgedCommandSource(sender)
 //$$		val results = dispatcher.parse(getCommandLineText(args), source)
 //$$		kotlin.runCatching {
 //$$			dispatcher.execute(results)
 //$$			Unit
 //$$		}.recoverCatching {
-//$$			source.sendFeedback(ChatComponentText("Could not execute ultra command: ${it.message}"))
+//$$			source.sendFeedback(literalText("Could not execute ultra command: ${it.message}"))
 //$$		}
 //$$	}
 //$$}

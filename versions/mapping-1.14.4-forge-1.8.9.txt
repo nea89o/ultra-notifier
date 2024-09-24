@@ -3,3 +3,5 @@ net.minecraft.util.text.ITextComponent net.minecraft.util.IChatComponent
 net.minecraft.util.text.ITextComponent getString() getUnformattedText()
 net.minecraftforge.eventbus.api.Event net.minecraftforge.fml.common.eventhandler.Event
 net.minecraftforge.eventbus.api.SubscribeEvent net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+net.minecraft.client.gui.screen.Screen net.minecraft.client.gui.GuiScreen
+com.mojang.blaze3d.platform.GlStateManager net.minecraft.client.renderer.GlStateManager

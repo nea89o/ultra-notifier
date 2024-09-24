@@ -16,7 +16,7 @@ object UltraNotifierEvents {
 		return event
 	}
 
-	fun register(obj: Any) {
+	fun register(obj: SubscriptionTarget) {
 //#if FORGE
 //$$		eventBus.register(obj)
 //#else

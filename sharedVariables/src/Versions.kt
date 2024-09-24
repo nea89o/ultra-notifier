@@ -5,32 +5,61 @@ private fun yarn(version: String): String =
 
 enum class Versions(
 	val projectName: String,
-	val mappingStyle: String,
-	val minecraftVersion: String,
+	val minecraftVersion: MinecraftVersion,
 	val mappingDependency: String,
-	parentName: String?,
+	val mappingStyle: MappingStyle,
 	val forgeDep: String?,
-	val needsPack200: Boolean,
-	val isBridge: Boolean,
-
 	val fabricVersion: String? = null,
+	parentName: String?,
 ) {
-	MC189("1.8.9", "srg", "1.8.9", "de.oceanlabs.mcp:mcp_stable:22-1.8.9@zip", "MC11404F", "net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9", true, false),
-	MC11404F("1.14.4-forge", "srg", "1.14.4", "de.oceanlabs.mcp:mcp_stable:58-1.14.4@zip", "MC11404", "net.minecraftforge:forge:1.14.4-28.1.113", false, true),
-	MC11404("1.14.4", "yarn", "1.14.4", yarn("1.14.4+build.1"), "MC12006", null, false, true, fabricVersion = "0.23.2+1.14"),
-	MC12006("1.20.6", "yarn", "1.20.6", yarn("1.20.6+build.1"), null, null, false, false, fabricVersion = "0.99.0+1.20.6"),
+	MC189("1.8.9",
+	      MinecraftVersion.MC189,
+	      "de.oceanlabs.mcp:mcp_stable:22-1.8.9@zip",
+	      MappingStyle.SEARGE,
+	      "net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9",
+	      null,
+	      "MC11202"),
+	MC11202("1.12.2",
+	        MinecraftVersion.MC11202,
+	        "de.oceanlabs.mcp:mcp_stable:39-1.12@zip",
+	        MappingStyle.SEARGE,
+	        "net.minecraftforge:forge:1.12.2-14.23.5.2847",
+	        null,
+	        "MC116Forge"),
+	MC116Forge("1.16.2-forge",
+	           MinecraftVersion.MC11602,
+	           "official",
+	           MappingStyle.SEARGE,
+	           "net.minecraftforge:forge:1.16.2-33.0.61",
+	           null,
+	           "MC116Fabric"),
+	MC116Fabric("1.16.2-fabric",
+	            MinecraftVersion.MC11602,
+	            yarn("1.16.2+build.47"),
+	            MappingStyle.YARN,
+	            null,
+	            "0.20.1+build.401-1.16",
+	            "MC12006"
+	),
+	MC12006(
+		"1.20.6",
+		MinecraftVersion.MC12006,
+		yarn("1.20.6+build.1"),
+		MappingStyle.YARN,
+		null,
+		fabricVersion = "0.99.0+1.20.6",
+		null,
+	),
 	;
 
+	val platformName = if (forgeDep == null) "fabric" else "forge"
+	val universalCraft = "gg.essential:universalcraft-${minecraftVersion.versionName}-$platformName:363"
+	val needsPack200 = forgeDep != null && minecraftVersion <= MinecraftVersion.MC11202
 	val parent: Versions? by lazy {
 		if (parentName == null) null
 		else Versions.values().find { it.name == parentName }!!
 	}
 
-	val numericMinecraftVersion = run {
-		require(minecraftVersion.count { it == '.' } == 2)
-		val (a, b, c) = minecraftVersion.split(".").map { it.toInt() }
-		a * 10000 + b * 100 + c
-	}
 	val projectPath get() = ":$projectName"
 
 	companion object {

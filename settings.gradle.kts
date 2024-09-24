@@ -14,6 +14,7 @@ pluginManagement {
 		maven("https://maven.minecraftforge.net/")
 		maven("https://repo.spongepowered.org/maven/")
 		maven("https://repo.sk1er.club/repository/maven-releases/")
+		maven("https://maven.deftu.dev/releases")
 	}
 	resolutionStrategy {
 		eachPlugin {

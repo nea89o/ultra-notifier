@@ -1,7 +1,8 @@
 package moe.nea.ultranotifier
 
-import moe.nea.ultranotifier.commands.Commands
 import moe.nea.ultranotifier.event.RegistrationFinishedEvent
+import moe.nea.ultranotifier.event.UltraEvent
+import moe.nea.ultranotifier.event.UltraNotifierEvents
 import moe.nea.ultranotifier.init.NeaMixinConfig
 import java.io.File
 
@@ -18,7 +19,10 @@ object UltraNotifier {
 		for (mixinPlugin in NeaMixinConfig.getMixinPlugins()) {
 			logger.info("Loaded ${mixinPlugin.mixins.size} mixins for ${mixinPlugin.mixinPackage}.")
 		}
-		Commands.init()
+		AllModules.allModules.forEach {
+			UltraNotifierEvents.register(it)
+			it.init()
+		}
 
 		RegistrationFinishedEvent().post()
 

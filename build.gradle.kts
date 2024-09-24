@@ -1,4 +1,5 @@
 import com.replaymod.gradle.preprocess.PreprocessExtension
+import moe.nea.sharedbuild.MinecraftVersion
 import moe.nea.sharedbuild.Versions
 import moe.nea.sharedbuild.parseEnvFile
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
@@ -16,7 +17,7 @@ val version = Versions.values().find { it.projectPath == project.path }!!
 if (version.forgeDep != null)
 	extra.set("loom.platform", "forge")
 apply(plugin = "gg.essential.loom")
-apply(plugin = "com.replaymod.preprocess")
+apply(plugin = "dev.deftu.gradle.preprocess")
 
 val loom = the<LoomGradleExtensionAPI>()
 val preprocess = the<PreprocessExtension>()
@@ -27,38 +28,14 @@ if (version.needsPack200) {
 if (version.forgeDep != null) {
 	loom.forge.mixinConfig("mixins.ultranotifier.json")
 }
-val mcJavaVersion = JavaLanguageVersion.of(
-	when {
-		version.numericMinecraftVersion >= 12005 -> 21
-		version.numericMinecraftVersion >= 11800 -> 17
-		version.numericMinecraftVersion >= 11700 -> 16
-		else -> 8
-	}
-)
-loom.mixin.defaultRefmapName.set("mixins.ultranotifier.refmap.json")
+val mcJavaVersion = version.minecraftVersion.javaLanguageVersion
+//loom.mixin.defaultRefmapName.set("mixins.ultranotifier.refmap.json")
 java.toolchain.languageVersion.set(mcJavaVersion)
 preprocess.run {
-	vars.put("MC", version.numericMinecraftVersion)
+	vars.put("MC", version.minecraftVersion.versionNumber)
 	vars.put("FORGE", if ((version.forgeDep != null)) 1 else 0)
 	vars.put("JAVA", mcJavaVersion.asInt())
 }
-
-repositories {
-	mavenCentral()
-	maven("https://maven.minecraftforge.net") {
-		metadataSources {
-			artifact()
-		}
-	}
-	maven("https://repo.spongepowered.org/maven/")
-	maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
-	maven("https://jitpack.io") {
-		content {
-			includeGroupByRegex("(io|com)\\.github\\..+")
-		}
-	}
-}
-
 loom.run {
 	this.runs {
 		this.removeIf { it.name != "client" }
@@ -86,8 +63,8 @@ val shadowModImpl by configurations.creating {
 val include = if (version.forgeDep != null) configurations.getByName("include") else shadowModImpl
 val devauthVersion = "1.1.2"
 dependencies {
-	"minecraft"("com.mojang:minecraft:" + version.minecraftVersion)
-	"mappings"(version.mappingDependency)
+	"minecraft"("com.mojang:minecraft:" + version.minecraftVersion.versionName)
+	"mappings"(if(version.mappingDependency=="official") loom.officialMojangMappings() else version.mappingDependency)
 	if (version.forgeDep != null) {
 		"forge"(version.forgeDep!!)
 		runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:$devauthVersion")
@@ -97,10 +74,11 @@ dependencies {
 		runtimeOnly("me.djtheredstoner:DevAuth-fabric:$devauthVersion")
 	}
 	shadowImpl("com.github.therealbush:eventbus:1.0.2")
-	if (version.numericMinecraftVersion < 11300) {
+	include(version.universalCraft)
+	if (version.minecraftVersion.versionNumber < 11300) {
 		shadowImpl("com.mojang:brigadier:1.0.18")
 	}
-	if (version <= Versions.MC11404F) {
+	if (version.forgeDep != null) {
 		shadowImpl("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
 			isTransitive = false
 		}
@@ -149,7 +127,7 @@ tasks.processResources {
 	}
 	if (version.forgeDep != null) {
 		exclude("fabric.mod.json")
-		if (version.numericMinecraftVersion < 11400) {
+		if (version.minecraftVersion < MinecraftVersion.MC1144) {
 			exclude("META-INF/mods.toml")
 		} else {
 			exclude("mcmod.info")
@@ -172,11 +150,9 @@ tasks.named("runClient", RunGameTask::class) {
 	})
 }
 
-if (version.isBridge) {
-	tasks.withType<JavaCompile> {
-		onlyIf { false }
-	}
-	tasks.withType<KotlinCompile> {
-		onlyIf { false }
-	}
+tasks.withType<JavaCompile> {
+	onlyIf { false }
+}
+tasks.withType<KotlinCompile> {
+	onlyIf { false }
 }
