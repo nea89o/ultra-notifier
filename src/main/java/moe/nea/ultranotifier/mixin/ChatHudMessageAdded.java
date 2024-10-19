@@ -31,7 +31,7 @@ public class ChatHudMessageAdded {
 //#if MC >= 1.20
 			MessageSignatureData signatureData, MessageIndicator indicator,
 //#elseif MC >= 1.16
-//$$            int chatLineId, int timestamp, boolean bl,
+//$$			int chatLineId, int timestamp, boolean bl,
 //#else
 //$$			int chatLineId,
 //#endif

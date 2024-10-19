@@ -32,11 +32,11 @@ package moe.nea.ultranotifier.commands
 //$$	val node: CommandNode<UltraCommandSource>
 //$$) : CommandBase() {
 //#if MC >= 1.12
-//$$    override fun checkPermission(server: MinecraftServer, sender: ICommandSender): Boolean {
+//$$	override fun checkPermission(server: MinecraftServer, sender: ICommandSender): Boolean {
 //$$		return true
 //$$	}
 //#else
-//$$ 	override fun canCommandSenderUseCommand(sender: ICommandSender): Boolean {
+//$$	override fun canCommandSenderUseCommand(sender: ICommandSender): Boolean {
 //$$		return true
 //$$	}
 //#endif
@@ -53,7 +53,7 @@ package moe.nea.ultranotifier.commands
 //$$
 //$$
 //#if MC < 1.12
-//$$    override fun processCommand(sender: ICommandSender, args: Array<out String>) {
+//$$	override fun processCommand(sender: ICommandSender, args: Array<out String>) {
 //#else
 //$$	override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<out String>) {
 //#endif

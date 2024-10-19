@@ -19,7 +19,7 @@ typealias UltraCommandSource =
 //#elseif MC > 1.18
 	net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 //#else
-//$$    net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource
+//$$	net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource
 //#endif
 
 
