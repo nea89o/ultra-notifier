@@ -2,6 +2,7 @@ package moe.nea.ultranotifier
 
 import moe.nea.ultranotifier.commands.Commands
 import moe.nea.ultranotifier.event.SubscriptionTarget
+import moe.nea.ultranotifier.event.TickEvent
 import moe.nea.ultranotifier.gui.ScreenUtil
 
 object AllModules {
@@ -9,5 +10,6 @@ object AllModules {
 		ChatStore,
 		Commands,
 		ScreenUtil,
+		TickEvent,
 	)
 }

@@ -29,5 +29,9 @@ object Constants {
 //$$		"1.16.5"
 //#elseif MC == 11602
 //$$		"1.16.2"
+//#elseif MC == 12100
+//$$		"1.21"
+//#elseif MC == 12101
+//$$		"1.21.1"
 //#endif
 }

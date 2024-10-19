@@ -10,6 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("java")
 	kotlin("jvm")
+	id("com.google.devtools.ksp")
 	id("com.github.johnrengelman.shadow")
 }
 

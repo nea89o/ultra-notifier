@@ -7,6 +7,8 @@ abstract class UltraEvent :
 	me.bush.eventbus.event.Event()
 //#endif
 {
+	interface Silent<T> where T : Silent<T>, T : UltraEvent
+
 //#if FORGE
 //$$	override fun isCancelable(): Boolean {
 //$$		return this.isCancellable()

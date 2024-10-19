@@ -4,10 +4,10 @@ package moe.nea.ultranotifier.event
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 //#endif
 
-class TickEvent : UltraEvent() {
+class TickEvent : UltraEvent(), UltraEvent.Silent<TickEvent> {
 
-	companion object {
-		init {
+	companion object : SubscriptionTarget {
+		override fun init() {
 //#if FABRIC
 			ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick {
 				TickEvent().post()

@@ -4,7 +4,8 @@ import moe.nea.sharedbuild.Versions
 plugins {
 	id("dev.deftu.gradle.preprocess") version "0.7.1"
 //	id("fabric-loom") version "1.6-SNAPSHOT" apply false
-	kotlin("jvm") version "1.9.23" apply false
+	kotlin("jvm") version "2.0.20" apply false
+	id("com.google.devtools.ksp") version "2.0.20-1.0.24" apply false
 	id("gg.essential.loom") version "1.6.+" apply false
 	id("dev.architectury.architectury-pack200") version "0.1.3"
 	id("com.github.johnrengelman.shadow") version "8.1.1" apply false

@@ -9,9 +9,12 @@ object UltraNotifierEvents {
 //#else
 		me.bush.eventbus.bus.EventBus { UltraNotifier.logger.warn("EventBus: $it") }
 //#endif
+
 	@JvmStatic
 	fun <T : UltraEvent> post(event: T): T {
-		UltraNotifier.logger.info("Posting $event")
+		if (event !is UltraEvent.Silent<*>) {
+			UltraNotifier.logger.info("Posting $event")
+		}
 		eventBus.post(event)
 		return event
 	}
