@@ -53,7 +53,7 @@ enum class Versions(
 	;
 
 	val platformName = if (forgeDep == null) "fabric" else "forge"
-	val universalCraft = "gg.essential:universalcraft-${minecraftVersion.versionName}-$platformName:363"
+	val universalCraft = "gg.essential:universalcraft-${minecraftVersion.versionName}-$platformName:369"
 	val needsPack200 = forgeDep != null && minecraftVersion <= MinecraftVersion.MC11202
 	val parent: Versions? by lazy {
 		if (parentName == null) null

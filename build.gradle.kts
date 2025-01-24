@@ -42,6 +42,7 @@ loom.run {
 	this.runs {
 		this.removeIf { it.name != "client" }
 		this.named("client") {
+			ideConfigGenerated(true)
 			parseEnvFile(file(".env")).forEach { (t, u) ->
 				this.environmentVariable(t, u)
 			}
@@ -80,6 +81,7 @@ dependencies {
 	}
 	shadowImpl("com.github.therealbush:eventbus:1.0.2")
 	include(version.universalCraft)
+	shadowImpl("io.github.juuxel:libninepatch:1.2.0")
 	if (version.minecraftVersion.versionNumber < 11300) {
 		shadowImpl("com.mojang:brigadier:1.0.18")
 	}
