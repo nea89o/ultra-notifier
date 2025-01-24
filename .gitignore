@@ -6,3 +6,4 @@ versions/*/build/
 versions/*/run/
 .env
 .properties
+.kotlin

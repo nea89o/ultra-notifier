@@ -1,13 +1,36 @@
 package moe.nea.ultranotifier.util.render
 
+//#if MC > 1.16
 import gg.essential.universal.UGraphics
 import gg.essential.universal.UMatrixStack
 import juuxel.libninepatch.NinePatch
 import juuxel.libninepatch.TextureRenderer
+import moe.nea.ultranotifier.util.minecrat.MC
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import java.awt.Color
 
+//#endif
+
 object ScreenRenderUtils {
+	//#if MC > 1.16
+	@JvmStatic
+	fun umatrix(
+		matrixStack: MatrixStack
+	) = UMatrixStack(matrixStack)
+
+	//#endif
+	//#if MC >= 1.20
+	@JvmStatic
+	fun umatrix(
+		context: DrawContext
+	) = UMatrixStack(context.matrices)
+	//#endif
+
+	@JvmStatic
+	fun umatrix() = UMatrixStack()
+
 	fun fillRect(
 		matrixStack: UMatrixStack,
 		left: Double, top: Double,
@@ -82,7 +105,7 @@ object ScreenRenderUtils {
 			) {
 				val x1 = left + x.toDouble()
 				val y1 = top + y.toDouble()
-				val x2 = x1+ width
+				val x2 = x1 + width
 				val y2 = y1 + height
 				graphics.pos(matrixStack, x1, y1, 0.0)
 					.tex(u1.toDouble(), v1.toDouble())
@@ -99,6 +122,14 @@ object ScreenRenderUtils {
 			}
 		}, (right - left).toInt(), (bottom - top).toInt())
 		graphics.drawDirect()
+	}
+
+	fun getTextWidth(text: String): Int {
+		return MC.font.getWidth(text)
+	}
+
+	fun renderText(matrixStack: UMatrixStack, x: Double, y: Double, text: String) {
+		UGraphics.drawString(matrixStack, text, x.toFloat(), y.toFloat(), -1, false)
 	}
 
 }

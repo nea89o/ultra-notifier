@@ -79,6 +79,7 @@ dependencies {
 		modImplementation("net.fabricmc.fabric-api:fabric-api:${version.fabricVersion!!}")
 		runtimeOnly("me.djtheredstoner:DevAuth-fabric:$devauthVersion")
 	}
+	runtimeOnly("com.google.guava:guava:17.0")
 	shadowImpl("com.github.therealbush:eventbus:1.0.2")
 	include(version.universalCraft)
 	shadowImpl("io.github.juuxel:libninepatch:1.2.0")
@@ -91,7 +92,7 @@ dependencies {
 		}
 		annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT")
 		annotationProcessor("com.google.code.gson:gson:2.10.1")
-		annotationProcessor("com.google.guava:guava:17.0")
+		annotationProcessor("com.google.guava:guava:33.4.0-jre")
 	}
 }
 

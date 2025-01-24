@@ -4,6 +4,9 @@
   "name": "${modName}",
   "description": "${description}",
   "version": "${version}",
+  "mixins": [
+    "mixins.ultranotifier.json"
+  ],
   "entrypoints": {
     "main": ["moe.nea.ultranotifier.UltraNotifierEntryPoint"]
   },
