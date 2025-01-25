@@ -37,6 +37,7 @@ public class ChatHudMessageAdded {
 //#endif
 			CallbackInfo ci
 	) {
+		// TODO: in this method prevent messages from being flushed (to preserve more history)
 		if (UltraNotifierEvents.post(new ChatGuiLineEvent(message)).isCancelled()) {
 			ci.cancel();
 		}

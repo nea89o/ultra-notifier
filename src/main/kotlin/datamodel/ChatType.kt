@@ -1,6 +1,12 @@
 package moe.nea.ultranotifier.datamodel
 
-import moe.nea.ultranotifier.util.minecrat.getDirectlyContainedText
+import jdk.jfr.Category
+import moe.nea.ultranotifier.event.SubscriptionTarget
+import moe.nea.ultranotifier.event.TickEvent
+import moe.nea.ultranotifier.event.UltraSubscribe
+import moe.nea.ultranotifier.event.VisibleChatMessageAddedEvent
+import moe.nea.ultranotifier.util.minecrat.MC
+import moe.nea.ultranotifier.util.minecrat.category
 import moe.nea.ultranotifier.util.minecrat.getFormattedTextCompat
 import moe.nea.ultranotifier.util.minecrat.removeFormattingCodes
 import net.minecraft.text.Text
@@ -29,7 +35,9 @@ data class ChatPattern(
 //#endif
 }
 
+data class CategoryId(val id: String)
 data class ChatCategory(
+	val id: CategoryId,
 	val label: String,
 	val chatTypes: Set<ChatTypeId>,
 )
@@ -71,7 +79,8 @@ interface HasCategorizedChatLine {
 	val categorizedChatLine_ultraNotifier: CategorizedChatLine
 }
 
-object ChatCategoryArbiter {
+object ChatCategoryArbiter : SubscriptionTarget {
+	val specialAll = CategoryId("special-all")
 	val universe = ChatUniverse(
 		"Hypixel SkyBlock",
 		listOf(
@@ -92,19 +101,50 @@ object ChatCategoryArbiter {
 		),
 		listOf(
 			ChatCategory(
+				specialAll,
+				"All",
+				setOf()
+			),
+			ChatCategory(
+				CategoryId("economy"),
 				"Economy",
 				setOf(ChatTypeId("bazaar"), ChatTypeId("auction-house"))
 			)
 		)
 	)
 
+	val categories get() = universe.categories
+	var selectedCategoryId = specialAll
+		set(value) {
+			field = value
+			selectedCategory = findCategory(value)
+		}
+	var lastSelectedId = selectedCategoryId
+
+	@UltraSubscribe
+	fun onTick(event: TickEvent) {
+		if (lastSelectedId != selectedCategoryId) {
+			MC.chatHud.reset()
+			lastSelectedId = selectedCategoryId
+		}
+	}
+
+	var selectedCategory: ChatCategory = findCategory(selectedCategoryId)
+		private set
+
+	@UltraSubscribe
+	fun onVisibleChatMessage(event: VisibleChatMessageAddedEvent) {
+		val cl = event.chatLine.category
+		if (selectedCategory.id == specialAll)return
+		if (selectedCategory !in cl.categories)
+			event.cancel()
+	}
+
+	fun findCategory(id: CategoryId) = categories.find { it.id == id }!!
+
 	fun categorize(content: Text): CategorizedChatLine {
 		val stringContent = content.getFormattedTextCompat().removeFormattingCodes()
 		return universe.categorize(stringContent)
 	}
 }
-
-
-
-
 

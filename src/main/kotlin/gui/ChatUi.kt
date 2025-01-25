@@ -2,6 +2,8 @@ package moe.nea.ultranotifier.gui
 
 import gg.essential.universal.UGraphics
 import gg.essential.universal.UMatrixStack
+import moe.nea.ultranotifier.datamodel.ChatCategory
+import moe.nea.ultranotifier.datamodel.ChatCategoryArbiter
 import moe.nea.ultranotifier.util.minecrat.MC
 import moe.nea.ultranotifier.util.minecrat.accessor
 import moe.nea.ultranotifier.util.render.ScreenRenderUtils
@@ -26,10 +28,9 @@ class ChatUi(val chatScreen: ChatScreen) {
 		return chatTop.toDouble()
 	}
 
-	var selectedTab = "Bazaar"
 	fun iterateButtons(
 		onEach: (
-			label: String,
+			label: ChatCategory,
 			isSelected: Boolean,
 			pos: Rect,
 		) -> Unit
@@ -37,9 +38,9 @@ class ChatUi(val chatScreen: ChatScreen) {
 		val chatTop = calculateChatTop()
 		var xOffset = 5
 		val top = chatTop - 16.0
-		for (button in listOf("Socials", "Bazaar", "Slayer", "Guild", "Party", "Dungeon", "Fishing","Socials", "Bazaar", "Slayer", "Guild", "Party", "Dungeon", "Fishing")) {
-			val w = ScreenRenderUtils.getTextWidth(button) + 3
-			val isSelected = button == selectedTab
+		for (button in ChatCategoryArbiter.categories) {
+			val w = ScreenRenderUtils.getTextWidth(button.label) + 3
+			val isSelected = button == ChatCategoryArbiter.selectedCategory
 			onEach(button, isSelected, Rect(xOffset.toDouble(), top, w.toDouble(), 16.0))
 			xOffset += w + 5
 		}
@@ -65,8 +66,7 @@ class ChatUi(val chatScreen: ChatScreen) {
 		matrixStack: UMatrixStack,
 		mouseX: Double, mouseY: Double,
 	) {
-		iterateButtons { text, isSelected, pos ->
-			val w = ScreenRenderUtils.getTextWidth(text)
+		iterateButtons { button, isSelected, pos ->
 			UGraphics.enableBlend()
 			ScreenRenderUtils.fillRect(matrixStack,
 			                           pos.l, pos.t, pos.r, pos.b,
@@ -74,7 +74,7 @@ class ChatUi(val chatScreen: ChatScreen) {
 			UGraphics.disableBlend()
 			ScreenRenderUtils.renderText(matrixStack,
 			                             pos.l + 2, pos.cy - 9 / 2,
-			                             if (isSelected) "§a$text" else "§f$text")
+			                             if (isSelected) "§a${button.label}" else "§f${button.label}")
 		}
 	}
 
@@ -82,7 +82,7 @@ class ChatUi(val chatScreen: ChatScreen) {
 		iterateButtons { label, isSelected, pos ->
 			if (pos.contains(mouseX, mouseY)) {
 				if (button == 0) {
-					selectedTab = label
+					ChatCategoryArbiter.selectedCategoryId = label.id
 				}
 				// TODO: right click options or something
 			}
