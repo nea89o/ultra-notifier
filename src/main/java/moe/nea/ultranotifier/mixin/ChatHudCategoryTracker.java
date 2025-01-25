@@ -22,7 +22,7 @@ public class ChatHudCategoryTracker<T> implements HasCategorizedChatLine {
 	@Unique
 	CategorizedChatLine categorizedSelf;
 
-	@Inject(method = "<init>", at = @At("TAIL"))
+	@Inject(method = "<init>", at = @At("RETURN"))
 	private void onInit(
 		int creationTick,
 		//#if MC>1.20

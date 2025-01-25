@@ -9,5 +9,8 @@ net.minecraftforge.event.TickEvent$ClientTickEvent net.minecraftforge.fml.common
 net.minecraft.client.Options textBackgroundOpacity chatOpacity
 net.minecraft.client.gui.components.ChatComponent getScale() getChatScale()
 net.minecraft.client.gui.components.ChatComponent getLinesPerPage() getLineCount()
+net.minecraft.client.gui.components.ChatComponent addMessage(Lnet/minecraft/network/chat/Component;IIZ)V setChatLine()
 net.minecraft.client.gui.components.ChatComponent net.minecraft.client.gui.GuiNewChat
-
+net.minecraft.client.gui.components.ComponentRenderUtils net.minecraft.client.gui.GuiUtilRenderComponents
+net.minecraft.client.GuiMessage net.minecraft.client.gui.ChatLine
+net.minecraft.client.GuiMessage getMessage() getChatComponent()

@@ -3,8 +3,8 @@
 package moe.nea.ultranotifier.util.minecrat
 
 import moe.nea.ultranotifier.datamodel.HasCategorizedChatLine
+import moe.nea.ultranotifier.event.ChattyHudLine
 import net.minecraft.client.gui.hud.ChatHud
-import net.minecraft.client.gui.hud.ChatHudLine
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
@@ -19,4 +19,4 @@ fun ChatHud.accessor(): AccessorChatHud {
 	return this as AccessorChatHud
 }
 
-val ChatHudLine.category get() = (this as HasCategorizedChatLine).categorizedChatLine_ultraNotifier
+val ChattyHudLine.category get() = (this as HasCategorizedChatLine).categorizedChatLine_ultraNotifier
