@@ -32,13 +32,14 @@ public class ChatHudCategoryTracker<T> implements HasCategorizedChatLine {
 		//$$int weird,
 		//#else
 		//$$T content,
+		//$$int weird,
 		//#endif
 		//#if MC>1.20
 		MessageSignatureData signature, MessageIndicator tag,
 		//#endif
 		CallbackInfo ci
 	) {
-		categorizedSelf = ChatCategoryArbiter.INSTANCE.categorize(content);
+		categorizedSelf = ChatCategoryArbiter.INSTANCE.categorize((Text)content);
 	}
 
 	@Override

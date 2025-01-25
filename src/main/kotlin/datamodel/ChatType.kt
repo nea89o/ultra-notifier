@@ -1,5 +1,8 @@
 package moe.nea.ultranotifier.datamodel
 
+import moe.nea.ultranotifier.util.minecrat.getDirectlyContainedText
+import moe.nea.ultranotifier.util.minecrat.getFormattedTextCompat
+import moe.nea.ultranotifier.util.minecrat.removeFormattingCodes
 import net.minecraft.text.Text
 import java.util.function.Predicate
 import java.util.regex.Pattern
@@ -95,8 +98,9 @@ object ChatCategoryArbiter {
 		)
 	)
 
-	fun categorize(content: Any): CategorizedChatLine {
-		TODO()
+	fun categorize(content: Text): CategorizedChatLine {
+		val stringContent = content.getFormattedTextCompat().removeFormattingCodes()
+		return universe.categorize(stringContent)
 	}
 }
 
