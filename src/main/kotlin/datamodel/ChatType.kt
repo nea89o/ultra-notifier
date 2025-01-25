@@ -135,7 +135,8 @@ object ChatCategoryArbiter : SubscriptionTarget {
 	@UltraSubscribe
 	fun onVisibleChatMessage(event: VisibleChatMessageAddedEvent) {
 		val cl = event.chatLine.category
-		if (selectedCategory.id == specialAll)return
+		if (selectedCategory.id == specialAll)
+			return
 		if (selectedCategory !in cl.categories)
 			event.cancel()
 	}
