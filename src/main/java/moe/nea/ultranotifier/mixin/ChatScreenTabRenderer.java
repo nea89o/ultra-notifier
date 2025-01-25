@@ -2,7 +2,6 @@ package moe.nea.ultranotifier.mixin;
 
 import moe.nea.ultranotifier.gui.ChatUi;
 import moe.nea.ultranotifier.util.render.ScreenRenderUtils;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatScreen;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,6 +10,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+//#if MC>1.16
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.math.MatrixStack;
 //#endif
 
 @Mixin(ChatScreen.class)
@@ -49,12 +51,26 @@ public abstract class ChatScreenTabRenderer {
 
 	@Inject(
 		method = "mouseClicked",
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(DDI)Z", opcode = Opcodes.INVOKESPECIAL)
+		at = @At(value = "INVOKE",
+			//#if MC > 1.16
+			target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(DDI)Z",
+			//#else
+			//$$target = "Lnet/minecraft/client/gui/GuiScreen;mouseClicked(III)V",
+			//#endif
+			opcode = Opcodes.INVOKESPECIAL)
 	)
 	private void onMouseClick(
+		//#if MC > 1.16
 		double mouseX, double mouseY,
+		//#else
+		//$$int mouseX, int mouseY,
+		//#endif
 		int button,
+		//#if MC > 1.16
 		CallbackInfoReturnable<Boolean> cir
+		//#else
+		//$$CallbackInfo cir
+		//#endif
 	) {
 		chatUi().clickMouse(mouseX, mouseY, button);
 	}

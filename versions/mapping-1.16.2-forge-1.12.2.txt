@@ -3,6 +3,11 @@ net.minecraft.network.chat.Component getString() getUnformattedText()
 net.minecraftforge.eventbus.api.Event net.minecraftforge.fml.common.eventhandler.Event
 net.minecraftforge.eventbus.api.SubscribeEvent net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 net.minecraft.client.gui.screens.Screen net.minecraft.client.gui.GuiScreen
-net.minecraft.client.gui.components.ChatComponent.render() drawChat()
+net.minecraft.client.gui.components.ChatComponent render() drawChat()
 net.minecraftforge.event.TickEvent net.minecraftforge.fml.common.gameevent.TickEvent
 net.minecraftforge.event.TickEvent$ClientTickEvent net.minecraftforge.fml.common.gameevent.TickEvent$ClientTickEvent
+net.minecraft.client.Options textBackgroundOpacity chatOpacity
+net.minecraft.client.gui.components.ChatComponent getScale() getChatScale()
+net.minecraft.client.gui.components.ChatComponent getLinesPerPage() getLineCount()
+net.minecraft.client.gui.components.ChatComponent net.minecraft.client.gui.GuiNewChat
+

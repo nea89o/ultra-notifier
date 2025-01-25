@@ -1,15 +1,15 @@
 package moe.nea.ultranotifier.util.render
 
-//#if MC > 1.16
 import gg.essential.universal.UGraphics
 import gg.essential.universal.UMatrixStack
 import juuxel.libninepatch.NinePatch
 import juuxel.libninepatch.TextureRenderer
 import moe.nea.ultranotifier.util.minecrat.MC
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import java.awt.Color
+//#if MC > 1.16
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.util.math.MatrixStack
 
 //#endif
 

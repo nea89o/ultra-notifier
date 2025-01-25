@@ -10,6 +10,8 @@ import java.awt.Color
 
 class ChatUi(val chatScreen: ChatScreen) {
 
+	val Double.value get() = this
+	val Float.value get() = this
 	fun getChatBgOpacity(opacityMultiplier: Double = 1.0): Color {
 		return Color((MC.instance.options.textBackgroundOpacity.value * opacityMultiplier * 255).toInt() shl 24, true)
 	}
@@ -21,7 +23,7 @@ class ChatUi(val chatScreen: ChatScreen) {
 			40
 		val chatTop =
 			(chatScreen.height - chatOffset) / ch.chatScale - ch.visibleLineCount * ch.lineHeight_ultranotifier
-		return chatTop
+		return chatTop.toDouble()
 	}
 
 	var selectedTab = "Bazaar"

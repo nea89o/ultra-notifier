@@ -1,6 +1,7 @@
 package moe.nea.ultranotifier.datamodel
 
 import net.minecraft.text.Text
+import java.util.function.Predicate
 import java.util.regex.Pattern
 
 data class ChatTypeId(
@@ -17,7 +18,12 @@ data class ChatPattern(
 	val text: String
 ) {
 	val pattern = Pattern.compile(text)
-	val predicate = pattern.asMatchPredicate()
+	val predicate: Predicate<String> =
+//#if JAVA > 11
+		pattern.asMatchPredicate()
+//#else
+//$$		Predicate { it: String -> pattern.matcher(it).matches() }
+//#endif
 }
 
 data class ChatCategory(
@@ -89,8 +95,8 @@ object ChatCategoryArbiter {
 		)
 	)
 
-	fun categorize(content: Text): CategorizedChatLine {
-		universe.categorize(content.lit)
+	fun categorize(content: Any): CategorizedChatLine {
+		TODO()
 	}
 }
 
