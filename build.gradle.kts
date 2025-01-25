@@ -50,7 +50,7 @@ loom.run {
 				this.property(t, u)
 			}
 			this.property("mixin.debug", "true")
-			if (version == Versions.MC189) {
+			if (version.minecraftVersion <= MinecraftVersion.MC11202) {
 				this.programArgs("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
 			}
 		}
