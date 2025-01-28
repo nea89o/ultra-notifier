@@ -80,6 +80,7 @@ dependencies {
 		runtimeOnly("me.djtheredstoner:DevAuth-fabric:$devauthVersion")
 	}
 	runtimeOnly("com.google.guava:guava:17.0")
+	implementation(kotlin("reflect"))
 	shadowImpl("com.github.therealbush:eventbus:1.0.2")
 	include(version.universalCraft)
 	shadowImpl("io.github.juuxel:libninepatch:1.2.0")
